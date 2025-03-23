@@ -8,7 +8,7 @@ from dassl.utils import read_image
 from .datasets import build_dataset
 from .samplers import build_sampler
 from .transforms import INTERPOLATION_MODES, build_transform
-
+from dassl.data.plot_dataset import visualize_dataset
 
 def build_data_loader(
     cfg,
@@ -44,6 +44,11 @@ def build_data_loader(
         pin_memory=(torch.cuda.is_available() and cfg.USE_CUDA)
     )
     assert len(data_loader) > 0
+
+    dataset_name = cfg.DATASET.NAME
+    split_name = 'train' if is_train else 'val'
+    classnames = [str(i) for i in range(100)]
+    # visualize_dataset(data_loader.dataset.data_source, dataset_name, split_name, classnames)
 
     return data_loader
 
