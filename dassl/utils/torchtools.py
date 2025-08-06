@@ -60,7 +60,7 @@ def save_checkpoint(
         model_name = "model.pth.tar-" + str(epoch)
     fpath = osp.join(save_dir, model_name)
     torch.save(state, fpath)
-    print(f"Checkpoint saved to {fpath}")
+    # print(f"Checkpoint saved to {fpath}")
 
     # save current model name
     checkpoint_file = osp.join(save_dir, "checkpoint")

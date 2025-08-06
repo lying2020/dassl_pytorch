@@ -8,7 +8,7 @@ from dassl.utils import read_image
 from .datasets import build_dataset
 from .samplers import build_sampler
 from .transforms import INTERPOLATION_MODES, build_transform
-from dassl.data.plot_dataset import visualize_dataset
+# from dassl.data.plot_dataset import visualize_dataset
 
 def build_data_loader(
     cfg,

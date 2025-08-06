@@ -13,7 +13,7 @@ current_dir = os.path.dirname(current_file_path)
 # 去除文件名后缀
 file_name_without_extension = os.path.splitext(os.path.basename(current_file_path))[0]
 
-results_path = os.path.join(current_dir, "../../../", f'results/{file_name_without_extension}')
+results_path = os.path.join(current_dir, "../../../", f'output/{file_name_without_extension}')
 
 os.makedirs(results_path, exist_ok=True)
 
