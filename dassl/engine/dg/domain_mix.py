@@ -10,7 +10,7 @@ __all__ = ["DomainMix"]
 @TRAINER_REGISTRY.register()
 class DomainMix(TrainerX):
     """DomainMix.
-    
+
     Dynamic Domain Generalization.
 
     https://github.com/MetaVisionLab/DDG

@@ -7,7 +7,7 @@ from dassl.metrics import compute_accuracy
 @TRAINER_REGISTRY.register()
 class Vanilla(TrainerX):
     """Vanilla model.
-    
+
     A.k.a. Empirical Risk Minimization, or ERM.
     """
 

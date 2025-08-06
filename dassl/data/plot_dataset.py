@@ -22,7 +22,7 @@ def to_pil(data):
     # Convert tensor to numpy array
     if torch.is_tensor(data):
         data = data.cpu().numpy()
-    
+
     r = Image.fromarray((data[0] * 255).astype(np.uint8))
     g = Image.fromarray((data[1] * 255).astype(np.uint8))
     b = Image.fromarray((data[2] * 255).astype(np.uint8))
@@ -52,7 +52,7 @@ def visualize_dataset(loader, dataset_name, split_name, class_names):
                 images.append(img)
                 labels.append(label.item())
                 samples_per_class[label.item()] += 1
-        
+
         # 检查是否所有类别都收集够了样本
         if all(count >= max_samples for count in samples_per_class.values()):
             break
@@ -67,40 +67,40 @@ def split_labels_into_groups(label_names, group_size=10):
 def random_visualize(imgs, labels, label_names, dataset_name, split_name):
     # 将标签分组，每组10个类别
     label_groups = split_labels_into_groups(label_names)
-    
+
     for group_idx, group_labels in enumerate(label_groups):
         figure = plt.figure(figsize=(len(group_labels), 10))
-        
+
         # 获取当前组的标签索引范围
         label_indices = [label_names.index(label) for label in group_labels]
-        
+
         # 筛选属于当前组的图片
         valid_indices = [i for i, label in enumerate(labels) if label in label_indices]
         np.random.shuffle(valid_indices)
-        
+
         count = {label: 0 for label in label_indices}
-        
+
         for idx in valid_indices:
             label = labels[idx]
             if count[label] >= 10:
                 continue
             if all(c >= 10 for c in count.values()):
                 break
-            
+
             img = to_pil(imgs[idx])
             label_name = label_names[label]
-            
+
             # 调整subplot索引计算
             relative_label_idx = label_indices.index(label)
             subplot_idx = count[label] * len(group_labels) + relative_label_idx + 1
-            
+
             plt.subplot(10, len(group_labels), subplot_idx)
             plt.imshow(img)
             plt.xticks([])
             plt.yticks([])
             if count[label] == 0:
                 plt.title(label_name)
-            
+
             count[label] += 1
 
         # 保存图片
