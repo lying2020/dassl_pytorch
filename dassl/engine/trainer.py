@@ -248,10 +248,43 @@ class TrainerBase:
                 def close(self):
                     pass
             self._writer = DummySummaryWriter(log_dir=log_dir)
+            print(f"Initialize tensorboard (log_dir={log_dir})")
+            try:
+                import signal
+
+                def timeout_handler(signum, frame):
+                    raise TimeoutError("TensorBoard initialization timed out")
+
+                # Set timeout for TensorBoard initialization (10 seconds)
+                signal.signal(signal.SIGALRM, timeout_handler)
+                signal.alarm(10)
+
+                try:
+                    self._writer = SummaryWriter(log_dir=log_dir)
+                    signal.alarm(0)  # Cancel the alarm
+                    print("TensorBoard initialized successfully")
+                except TimeoutError:
+                    print("Warning: TensorBoard initialization timed out, continuing without TensorBoard")
+                    self._writer = None
+                except Exception as e:
+                    print(f"Warning: Failed to initialize TensorBoard: {e}")
+                    self._writer = None
+
+            except ImportError:
+                # If signal module is not available (Windows), try without timeout
+                try:
+                    self._writer = SummaryWriter(log_dir=log_dir)
+                    print("TensorBoard initialized successfully")
+                except Exception as e:
+                    print(f"Warning: Failed to initialize TensorBoard: {e}")
+                    self._writer = None
 
     def close_writer(self):
         if self._writer is not None:
-            self._writer.close()
+            try:
+                self._writer.close()
+            except Exception as e:
+                print(f"Warning: Failed to close TensorBoard writer: {e}")
 
     def write_scalar(self, tag, scalar_value, global_step=None):
         if self._writer is None:
