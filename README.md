@@ -230,7 +230,7 @@ class NewDataset(DatasetBase):
     dataset_dir = ''
 
     def __init__(self, cfg):
-        
+
         train_x = ...
         train_u = ...  # optional, can be None
         val = ...  # optional, can be None

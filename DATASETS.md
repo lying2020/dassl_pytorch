@@ -124,7 +124,7 @@ digit5/
 
 Then, run the following command in your terminal under `Dassl.pytorch/datasets/da`,
 
-```bash 
+```bash
 python digit5.py $DATA/digit5
 ```
 
